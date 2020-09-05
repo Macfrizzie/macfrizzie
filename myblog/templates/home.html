@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1 style="text-align: center;">Post</h1>
+
+<ul>
+  
+  {% for post in object_list %}
+  
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-md-10 mx-auto">
+        <div class="post-preview">
+          <a href="post.html">
+            <h3 class="post-title">
+              <a href="{% url 'article-detail' post.pk %}">{{ post.title }}</a>
+            </h3>
+            <h6 class="post-subtitle">
+              {{ post.body|slice:":50"|safe }}
+            </h6>
+          </a>
+          <p class="post-meta"><a href="{% url 'category' post.category|slugify %}">{{ post.category }}</a> - Posted by
+            <a href="#">{{ post.author }}</a>
+            on {{ post.post_date }}
+            
+            
+            {% if user.is_authenticated %}
+            
+              {% if user.id == post.author.id %}
+            <a href="{% url 'update_post' post.pk %}">Edit</a>
+              <a href="{% url 'delete_post' post.pk %}"> Delete </a>
+              {% endif %}
+            {% endif %}
+            </p>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endfor %} 
+
+</ul>
+{% endblock %}  
